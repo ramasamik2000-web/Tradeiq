@@ -24,8 +24,21 @@ def auth(req):
 @app.get('/', response_class=HTMLResponse)
 def home(request: Request):
     if not auth(request):
-        return templates.TemplateResponse('login.html', {'request':request})
-    return templates.TemplateResponse('dashboard.html', {'request':request, 'data':None, 'symbol':'', 'error':None, 'news':[]})
+        return templates.TemplateResponse(
+            request=request,
+            name="login.html"
+        )
+
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html",
+        context={
+            "data": None,
+            "symbol": "",
+            "error": None,
+            "news": []
+        }
+    )
 
 @app.post('/login')
 def login(request: Request, password: str = Form(...)):
